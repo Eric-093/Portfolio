@@ -1,0 +1,1082 @@
+/* ================================================================
+   SIBONISO SHUSHE — PORTFOLIO STYLESHEET
+   
+   📚 LEARNING NOTE: CSS (Cascading Style Sheets) controls HOW 
+   your HTML looks. "Cascading" means styles flow from top to bottom
+   — later rules can override earlier ones.
+   
+   We organize this file in the same order as the HTML sections:
+   1. Variables & Reset
+   2. Base Styles
+   3. Components (buttons, cards)
+   4. Navigation
+   5. Sections (Hero, About, Skills, Projects, Contact, Footer)
+   6. Animations
+   7. Media Queries (responsive design)
+================================================================ */
+
+/* ----------------------------------------------------------------
+   1. CSS CUSTOM PROPERTIES (Variables)
+   
+   📚 LEARNING NOTE: CSS variables (declared with --name) let you 
+   store values once and reuse them everywhere. If you want to change 
+   the accent color, you change ONE line here and it updates the whole site!
+   :root means "apply to the entire document."
+---------------------------------------------------------------- */
+:root {
+  --bg-primary: #0a0a0f;
+  --bg-secondary: #0f0f1a;
+  --bg-card: #13131f;
+  --bg-card-hover: #191928;
+  
+  --accent: #00e5a0;          /* Electric cyan-green — our signature color */
+  --accent-dim: #00e5a025;    /* Same color, very transparent (for glows) */
+  --accent-mid: #00e5a060;    /* Medium transparency */
+  
+  --text-primary: #f0f0f8;
+  --text-secondary: #8888aa;
+  --text-muted: #555570;
+  
+  --border: #1e1e30;
+  --border-hover: #00e5a040;
+  
+  --font-mono: 'Space Mono', monospace;      /* For headings & code-feel text */
+  --font-sans: 'DM Sans', sans-serif;        /* For body text — clean & readable */
+  
+  --radius: 12px;
+  --radius-sm: 6px;
+  
+  /* 
+    📚 LEARNING NOTE: CSS transitions make properties animate smoothly 
+    instead of jumping. We store a standard transition value here 
+    so all our hover effects feel consistent.
+  */
+  --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  
+  --shadow-card: 0 4px 24px rgba(0, 0, 0, 0.4);
+  --shadow-accent: 0 0 30px rgba(0, 229, 160, 0.15);
+  
+  --nav-height: 72px;
+}
+
+/* ----------------------------------------------------------------
+   2. CSS RESET & BASE STYLES
+   
+   📚 LEARNING NOTE: Browsers have their own default styles (margins, 
+   padding, font sizes). A "reset" removes these so we start from zero 
+   and control everything ourselves. `box-sizing: border-box` means 
+   padding is included IN the element's width — much easier to work with.
+---------------------------------------------------------------- */
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;     /* Makes anchor links (#about) scroll smoothly */
+  scroll-padding-top: var(--nav-height);  /* Accounts for fixed navbar height */
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  line-height: 1.7;
+  overflow-x: hidden;    /* Prevents horizontal scroll from animations */
+}
+
+/* 
+  📚 LEARNING NOTE: The ::selection pseudo-element styles text 
+  when users highlight/select it. A small detail that makes 
+  your portfolio feel polished and "branded."
+*/
+::selection {
+  background: var(--accent-mid);
+  color: #fff;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+ul {
+  list-style: none;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+/* ----------------------------------------------------------------
+   3. UTILITY CLASSES
+   These are small, reusable classes you can apply to any element.
+---------------------------------------------------------------- */
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+.accent {
+  color: var(--accent);
+}
+
+/* ----------------------------------------------------------------
+   BUTTONS
+   📚 LEARNING NOTE: We define a "base" .btn class with shared styles,
+   then .btn-primary and .btn-outline ADD to it. This is called 
+   "composition" — building specific things from general pieces.
+---------------------------------------------------------------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.75rem;
+  border-radius: var(--radius-sm);
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: var(--transition);
+  text-transform: uppercase;
+}
+
+.btn-primary {
+  background: var(--accent);
+  color: #0a0a0f;
+  border-color: var(--accent);
+}
+
+.btn-primary:hover {
+  background: transparent;
+  color: var(--accent);
+  box-shadow: var(--shadow-accent);
+  transform: translateY(-2px);
+}
+
+.btn-outline {
+  background: transparent;
+  color: var(--text-primary);
+  border-color: var(--border);
+}
+
+.btn-outline:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  transform: translateY(-2px);
+}
+
+.btn-full {
+  width: 100%;
+  justify-content: center;
+}
+
+/* ----------------------------------------------------------------
+   SECTION LAYOUT
+   📚 LEARNING NOTE: All sections share this padding so spacing is 
+   consistent. This is the DRY principle (Don't Repeat Yourself) 
+   applied to CSS.
+---------------------------------------------------------------- */
+.section {
+  padding: 7rem 0;
+}
+
+.section-header {
+  margin-bottom: 4rem;
+}
+
+.section-tag {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--accent);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  display: block;
+  margin-bottom: 0.75rem;
+}
+
+.section-title {
+  font-family: var(--font-mono);
+  font-size: clamp(2rem, 4vw, 3rem);  /* clamp() = responsive font size */
+  font-weight: 700;
+  color: var(--text-primary);
+  line-height: 1.1;
+}
+
+.section-subtitle {
+  margin-top: 1rem;
+  color: var(--text-secondary);
+  font-size: 1.05rem;
+  max-width: 540px;
+}
+
+/* ----------------------------------------------------------------
+   SCROLL REVEAL ANIMATION
+   📚 LEARNING NOTE: Elements start invisible (opacity: 0) and slightly 
+   below their final position (translateY: 30px). 
+   JavaScript adds the "visible" class when they scroll into view,
+   which triggers the CSS transition to animate them into place.
+---------------------------------------------------------------- */
+.reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ----------------------------------------------------------------
+   4. NAVIGATION
+---------------------------------------------------------------- */
+.navbar {
+  position: fixed;      /* Stays at top when you scroll */
+  top: 0;
+  left: 0;
+  right: 0;
+  height: var(--nav-height);
+  z-index: 1000;        /* z-index controls stacking — higher = on top */
+  transition: var(--transition);
+}
+
+/* 
+  JavaScript adds "scrolled" class when user scrolls down.
+  This adds the blurred background to the navbar.
+*/
+.navbar.scrolled {
+  background: rgba(10, 10, 15, 0.85);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+}
+
+.nav-container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.nav-logo {
+  font-family: var(--font-mono);
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: -0.02em;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 2.5rem;
+}
+
+.nav-links a {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  transition: var(--transition);
+  position: relative;
+}
+
+/* 
+  📚 LEARNING NOTE: ::after creates a pseudo-element (a decorative 
+  element that lives in CSS, not HTML). Here we create an underline 
+  that animates in on hover using transform: scaleX().
+*/
+.nav-links a::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: var(--accent);
+  transform: scaleX(0);          /* Starts invisible */
+  transform-origin: left;
+  transition: transform 0.3s ease;
+}
+
+.nav-links a:hover {
+  color: var(--accent);
+}
+
+.nav-links a:hover::after {
+  transform: scaleX(1);          /* Slides in on hover */
+}
+
+/* Hamburger menu (mobile) */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+}
+
+.hamburger span {
+  display: block;
+  width: 24px;
+  height: 2px;
+  background: var(--text-primary);
+  transition: var(--transition);
+}
+
+/* Animate hamburger into X when open */
+.hamburger.open span:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+.hamburger.open span:nth-child(2) {
+  opacity: 0;
+}
+.hamburger.open span:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
+/* ----------------------------------------------------------------
+   5. HERO SECTION
+---------------------------------------------------------------- */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  background: var(--bg-primary);
+}
+
+/* The canvas sits behind everything */
+#hero-canvas {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  padding: 2rem;
+  max-width: 750px;
+}
+
+.hero-greeting {
+  font-family: var(--font-mono);
+  font-size: 0.9rem;
+  color: var(--accent);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+  
+  /* 
+    📚 LEARNING NOTE: animation shorthand:
+    name | duration | timing-function | delay | fill-mode
+    "forwards" means: keep the final animation state after it finishes.
+  */
+  animation: fadeUp 0.8s ease 0.2s forwards;
+  opacity: 0;
+}
+
+.hero-name {
+  font-family: var(--font-mono);
+  font-size: clamp(3rem, 8vw, 6rem);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  margin-bottom: 1.5rem;
+  animation: fadeUp 0.8s ease 0.4s forwards;
+  opacity: 0;
+}
+
+.hero-role {
+  font-family: var(--font-mono);
+  font-size: clamp(1rem, 2.5vw, 1.3rem);
+  color: var(--text-secondary);
+  margin-bottom: 1.5rem;
+  min-height: 2rem;
+  animation: fadeUp 0.8s ease 0.6s forwards;
+  opacity: 0;
+}
+
+.cursor {
+  animation: blink 1s step-end infinite;
+  color: var(--accent);
+}
+
+.hero-tagline {
+  color: var(--text-secondary);
+  font-size: 1rem;
+  max-width: 420px;
+  margin: 0 auto 2.5rem;
+  animation: fadeUp 0.8s ease 0.8s forwards;
+  opacity: 0;
+}
+
+.hero-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 2.5rem;
+  animation: fadeUp 0.8s ease 1s forwards;
+  opacity: 0;
+}
+
+.hero-socials {
+  display: flex;
+  gap: 1.25rem;
+  justify-content: center;
+  animation: fadeUp 0.8s ease 1.2s forwards;
+  opacity: 0;
+}
+
+.social-link {
+  color: var(--text-muted);
+  transition: var(--transition);
+  display: flex;
+  align-items: center;
+}
+
+.social-link:hover {
+  color: var(--accent);
+  transform: translateY(-3px);
+}
+
+/* Scroll indicator */
+.scroll-indicator {
+  position: absolute;
+  bottom: 2.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  z-index: 1;
+  animation: fadeIn 1s ease 2s forwards;
+  opacity: 0;
+}
+
+.scroll-indicator span {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  color: var(--text-muted);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+.scroll-line {
+  width: 1px;
+  height: 50px;
+  background: linear-gradient(to bottom, var(--accent), transparent);
+  animation: scrollPulse 2s ease-in-out infinite;
+}
+
+/* ----------------------------------------------------------------
+   6. ABOUT SECTION
+---------------------------------------------------------------- */
+.about {
+  background: var(--bg-secondary);
+}
+
+.about-grid {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 5rem;
+  align-items: center;
+}
+
+.about-text p {
+  color: var(--text-secondary);
+  margin-bottom: 1.2rem;
+  font-size: 1.05rem;
+}
+
+.about-text strong {
+  color: var(--text-primary);
+}
+
+/* Avatar box */
+.about-avatar {
+  position: relative;
+  flex-shrink: 0;
+}
+
+.avatar-box {
+  width: 220px;
+  height: 220px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.avatar-box span {
+  font-family: var(--font-mono);
+  font-size: 3rem;
+  font-weight: 700;
+  color: var(--accent);
+}
+
+/* 
+  📚 LEARNING NOTE: This ::before creates a shimmering gradient overlay
+  on the avatar box. It's positioned absolutely inside the relative 
+  .avatar-box parent. The gradient gives it a polished look.
+*/
+.avatar-box::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, var(--accent-dim) 0%, transparent 60%);
+}
+
+/* The decorative corner bracket */
+.avatar-decoration {
+  position: absolute;
+  bottom: -15px;
+  right: -15px;
+  width: 80px;
+  height: 80px;
+  border-right: 2px solid var(--accent);
+  border-bottom: 2px solid var(--accent);
+  border-radius: 0 0 var(--radius-sm) 0;
+}
+
+/* ----------------------------------------------------------------
+   7. SKILLS SECTION
+---------------------------------------------------------------- */
+.skills-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.5rem;
+}
+
+.skill-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 2rem;
+  transition: var(--transition);
+}
+
+.skill-card:hover {
+  border-color: var(--border-hover);
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-accent);
+}
+
+.skill-icon {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+.skill-card h3 {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 1rem;
+}
+
+.skill-card ul li {
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  padding: 0.3rem 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.skill-card ul li:last-child {
+  border-bottom: none;
+}
+
+/* ----------------------------------------------------------------
+   8. PROJECTS SECTION
+   
+   📚 LEARNING NOTE: The card hover effect uses multiple CSS features:
+   - transform: translateY moves the card upward
+   - box-shadow adds/intensifies a shadow for "lift" effect
+   - The .project-card-glow uses opacity transition for a glow reveal
+   All of this creates the illusion the card is floating.
+---------------------------------------------------------------- */
+.projects-section {
+  background: var(--bg-secondary);
+}
+
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+}
+
+.project-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 2rem;
+  position: relative;
+  overflow: hidden;
+  transition: var(--transition);
+  cursor: default;
+}
+
+/* The hover state — card lifts up and glows */
+.project-card:hover {
+  border-color: var(--border-hover);
+  transform: translateY(-8px);
+  box-shadow: 0 20px 60px rgba(0, 229, 160, 0.12);
+}
+
+/* When hovering, the glow element fades in */
+.project-card:hover .project-card-glow {
+  opacity: 1;
+}
+
+.project-card.coming-soon {
+  opacity: 0.75;
+}
+
+.project-card-inner {
+  position: relative;
+  z-index: 1;
+}
+
+/* Large project number in the background — decorative */
+.project-number {
+  font-family: var(--font-mono);
+  font-size: 4rem;
+  font-weight: 700;
+  color: var(--border);
+  line-height: 1;
+  margin-bottom: -0.5rem;
+  transition: var(--transition);
+}
+
+.project-card:hover .project-number {
+  color: var(--accent-dim);
+}
+
+.project-tag {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--accent);
+  background: var(--accent-dim);
+  padding: 0.3rem 0.75rem;
+  border-radius: 100px;
+  margin-bottom: 1rem;
+}
+
+.project-title {
+  font-family: var(--font-mono);
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 0.75rem;
+  transition: var(--transition);
+}
+
+.project-card:hover .project-title {
+  color: var(--accent);
+}
+
+.project-desc {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  line-height: 1.7;
+  margin-bottom: 1.5rem;
+}
+
+.project-tech {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.project-tech span {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--text-secondary);
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  padding: 0.25rem 0.6rem;
+  border-radius: var(--radius-sm);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.project-links {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.project-link {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--accent);
+  transition: var(--transition);
+  letter-spacing: 0.05em;
+}
+
+.project-link:hover {
+  letter-spacing: 0.1em;
+}
+
+.project-link.disabled {
+  color: var(--text-muted);
+  pointer-events: none;
+}
+
+/* The glow overlay — positions over the card and fades in on hover */
+.project-card-glow {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at top left, var(--accent-dim), transparent 70%);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* ----------------------------------------------------------------
+   9. CONTACT SECTION
+---------------------------------------------------------------- */
+.contact-section {
+  background: var(--bg-primary);
+}
+
+.contact-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.5fr;
+  gap: 5rem;
+  align-items: start;
+}
+
+.contact-item {
+  margin-bottom: 2rem;
+}
+
+.contact-label {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--text-muted);
+  margin-bottom: 0.4rem;
+}
+
+.contact-value {
+  font-size: 1rem;
+  color: var(--text-primary);
+  transition: var(--transition);
+}
+
+a.contact-value:hover {
+  color: var(--accent);
+}
+
+/* Available status dot */
+.contact-value.available {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--accent);
+}
+
+/* 
+  📚 LEARNING NOTE: ::before adds a pseudo-element (the green dot)
+  without needing an extra HTML tag. We size it with width/height,
+  give it a circular border-radius (50% = circle), and animate it
+  with a "pulse" keyframe animation defined below.
+*/
+.contact-value.available::before {
+  content: '';
+  width: 8px;
+  height: 8px;
+  background: var(--accent);
+  border-radius: 50%;
+  display: inline-block;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+/* Form styles */
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.form-group label {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--text-muted);
+}
+
+.form-group input,
+.form-group textarea {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 0.85rem 1rem;
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  font-size: 0.95rem;
+  transition: var(--transition);
+  resize: vertical;
+}
+
+/* 
+  📚 LEARNING NOTE: :focus applies when the user clicks into an input.
+  We use outline: none to remove the browser default blue ring,
+  and add our own branded border color instead.
+*/
+.form-group input:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-dim);
+}
+
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+  color: var(--text-muted);
+}
+
+.form-note {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  text-align: center;
+  min-height: 1.5rem;
+}
+
+.form-note.success { color: var(--accent); }
+.form-note.error   { color: #ff6b6b; }
+
+/* ----------------------------------------------------------------
+   10. FOOTER
+---------------------------------------------------------------- */
+.footer {
+  background: var(--bg-secondary);
+  border-top: 1px solid var(--border);
+  padding: 2.5rem 0;
+}
+
+.footer-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  text-align: center;
+}
+
+.footer-copy {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+
+.footer-credit {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+.footer-socials {
+  display: flex;
+  gap: 1.5rem;
+  margin-top: 0.5rem;
+}
+
+.footer-socials .social-link {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.footer-socials .social-link:hover {
+  color: var(--accent);
+}
+
+/* ----------------------------------------------------------------
+   11. KEYFRAME ANIMATIONS
+   
+   📚 LEARNING NOTE: @keyframes defines the "script" of an animation.
+   You name it, then define what happens at each percentage of the 
+   animation's progress (0% = start, 100% = end).
+   Elements then "play" this script with animation: name duration.
+---------------------------------------------------------------- */
+
+/* Fade up — used for hero text entrance */
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Simple fade in */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* Cursor blink */
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0; }
+}
+
+/* Scroll line pulse */
+@keyframes scrollPulse {
+  0%, 100% { transform: scaleY(1); opacity: 1; }
+  50%       { transform: scaleY(0.5); opacity: 0.5; }
+}
+
+/* Status dot pulse */
+@keyframes pulse {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50%       { transform: scale(1.4); opacity: 0.7; }
+}
+
+/* ----------------------------------------------------------------
+   12. RESPONSIVE DESIGN (Media Queries)
+   
+   📚 LEARNING NOTE: Media queries apply styles ONLY when certain 
+   conditions are met — like screen width. This is how we make the 
+   site look good on phones AND desktops.
+   
+   We use "max-width" (mobile-first approach inverted here):
+   styles inside apply when screen is SMALLER than the given width.
+---------------------------------------------------------------- */
+
+/* Tablet — screens under 900px */
+@media (max-width: 900px) {
+  .about-grid {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+
+  .about-avatar {
+    /* Center the avatar on tablet/mobile */
+    display: flex;
+    justify-content: center;
+    order: -1;    /* Move avatar above text */
+  }
+
+  .contact-grid {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+}
+
+/* Mobile — screens under 640px */
+@media (max-width: 640px) {
+  .section {
+    padding: 4rem 0;
+  }
+
+  /* Show hamburger, hide regular nav links */
+  .hamburger {
+    display: flex;
+  }
+
+  /* 
+    Mobile nav: slides down from the top when .open class is added.
+    JavaScript toggles this class on hamburger click.
+  */
+  .nav-links {
+    position: fixed;
+    top: var(--nav-height);
+    left: 0;
+    right: 0;
+    background: rgba(10, 10, 15, 0.98);
+    backdrop-filter: blur(20px);
+    flex-direction: column;
+    padding: 2rem;
+    gap: 2rem;
+    border-bottom: 1px solid var(--border);
+    
+    /* Hidden by default */
+    transform: translateY(-100%);
+    opacity: 0;
+    pointer-events: none;
+    transition: var(--transition);
+  }
+
+  /* When open class is on nav-links, slide it into view */
+  .nav-links.open {
+    transform: translateY(0);
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .nav-links a {
+    font-size: 1rem;
+  }
+
+  .hero-actions {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .avatar-box {
+    width: 160px;
+    height: 160px;
+  }
+
+  .avatar-box span {
+    font-size: 2rem;
+  }
+
+  .skills-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .projects-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Very small screens */
+@media (max-width: 380px) {
+  .skills-grid {
+    grid-template-columns: 1fr;
+  }
+}
